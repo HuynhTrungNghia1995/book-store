@@ -7,6 +7,7 @@ const {
   searchBooksByISBN,
   searchBooksByAuthor,
   searchBooksByTitle,
+  getBooksReviews,
 } = require("../services");
 
 const router = express.Router();
@@ -161,6 +162,37 @@ router.get("/author/:author", getBooksByAuthor);
  *                     example: Andrew Hunt & David Thomas
  */
 router.get("/title/:title", getBooksByTitle);
+
+/**
+ * @swagger
+ *   /api/books/reviews/{bookId}:
+ *   get:
+ *     summary: Get all reviews for a book
+ *     tags: [Books]
+ *     parameters:
+ *       - in: path
+ *         name: bookId
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: List of reviews for the book
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   bookId:
+ *                     type: string
+ *                   review:
+ *                     type: string
+ *                   userName:
+ *                     type: string
+ */
+router.get("/reviews/:bookId", getBooksReviews);
 
 /**
  * @swagger

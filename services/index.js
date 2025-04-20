@@ -6,6 +6,7 @@ const {
   searchBooksByISBN,
   searchBooksByAuthor,
   searchBooksByTitle,
+  getBooksReviews,
 } = require("./books.service");
 
 module.exports = {
@@ -16,4 +17,5 @@ module.exports = {
   searchBooksByISBN,
   searchBooksByAuthor,
   searchBooksByTitle,
+  getBooksReviews,
 };

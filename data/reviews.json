@@ -1,12 +1,12 @@
 [
   {
     "bookId": "1",
-    "review": "b",
-    "userName": "a"
+    "review": "This book is great",
+    "userName": "nghiaptst321"
   },
   {
     "bookId": "1",
-    "review": "b",
-    "userName": "string"
+    "review": "This book is awesome",
+    "userName": "nghiaptst123"
   }
 ]

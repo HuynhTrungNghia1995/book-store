@@ -150,44 +150,4 @@ router.delete("/:bookId", (req, res) => {
   return res.status(200).json({ message: "Review deleted successfully" });
 });
 
-/**
- * @swagger
- *   /api/reviews/{bookId}:
- *   get:
- *     summary: Get all reviews for a book
- *     tags: [Reviews]
- *     parameters:
- *       - in: path
- *         name: bookId
- *         required: true
- *         schema:
- *           type: string
- *     responses:
- *       200:
- *         description: List of reviews for the book
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 type: object
- *                 properties:
- *                   bookId:
- *                     type: string
- *                   review:
- *                     type: string
- *                   userName:
- *                     type: string
- */
-router.get("/:bookId", (req, res) => {
-  const bookId = req.params.bookId;
-
-  const reviews = data.reviews;
-
-  // Filter reviews for the specified book
-  const bookReviews = reviews.filter((review) => review.bookId === bookId);
-
-  return res.status(200).json(bookReviews);
-});
-
 module.exports = router;

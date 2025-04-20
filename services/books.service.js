@@ -106,6 +106,17 @@ const searchBooksByISBN = async (req, res) => {
   });
 };
 
+const getBooksReviews = (req, res) => {
+  const bookId = req.params.bookId;
+
+  const reviews = data.reviews;
+
+  // Filter reviews for the specified book
+  const bookReviews = reviews.filter((review) => review.bookId === bookId);
+
+  return res.status(200).json(bookReviews);
+};
+
 module.exports = {
   getAllBooks,
   getBookByISBN,
@@ -114,4 +125,5 @@ module.exports = {
   searchBooksByISBN,
   searchBooksByAuthor,
   searchBooksByTitle,
+  getBooksReviews,
 };
