@@ -1,22 +1,46 @@
 const data = require("../constants/data");
 const books = data.books;
 
-const getAllBooks = (req, res) => {
+// Helper function to get books with pagination asynchronously
+function getBooksWithPagination(page, pageSize, callback) {
+  setTimeout(() => {
+    try {
+      const pageInt = parseInt(page) || 1; // Default to page 1
+      const pageSizeInt = parseInt(pageSize) || 10; // Default to 10 items
+
+      const startIndex = (pageInt - 1) * pageSizeInt;
+      const endIndex = startIndex + pageSizeInt;
+
+      const paginatedBooks = books.slice(startIndex, endIndex);
+
+      callback(null, {
+        items: paginatedBooks,
+        totalCount: books.length,
+      });
+    } catch (error) {
+      callback(error, null);
+    }
+  }, 0);
+}
+
+// Main handler function as async
+const getAllBooks = async (req, res) => {
   const { page, pageSize } = req.query;
-  const pageInt = parseInt(page);
-  const pageSizeInt = parseInt(pageSize);
 
-  const startIndex = (pageInt - 1) * pageSizeInt;
-  const endIndex = startIndex + pageSizeInt;
+  getBooksWithPagination(page, pageSize, (error, result) => {
+    if (error) {
+      return res.status(500).send({
+        code: 500,
+        status: "error",
+        message: error.message,
+      });
+    }
 
-  const paginatedBooks = books.slice(startIndex, endIndex);
-  res.send({
-    code: 200,
-    status: "success",
-    data: {
-      items: paginatedBooks,
-      totalCount: books.length,
-    },
+    res.send({
+      code: 200,
+      status: "success",
+      data: result,
+    });
   });
 };
 
@@ -55,20 +79,6 @@ const getBooksByTitle = (req, res) => {
   });
 };
 
-function searchByISBNAsync(ISBN) {
-  return new Promise((resolve, reject) => {
-    const result = books.filter((book) =>
-      book.ISBN.toLowerCase().includes(ISBN.toLowerCase())
-    );
-
-    if (result.length > 0) {
-      resolve(result);
-    } else {
-      reject(new Error("No book found with that ISBN."));
-    }
-  });
-}
-
 const searchBooksByAuthor = async (req, res) => {
   const { author } = req.query;
   const booksByTitle = books.filter((book) =>
@@ -94,6 +104,20 @@ const searchBooksByTitle = async (req, res) => {
     data: booksByTitle,
   });
 };
+
+function searchByISBNAsync(ISBN) {
+  return new Promise((resolve, reject) => {
+    const result = books.filter((book) =>
+      book.ISBN.toLowerCase().includes(ISBN.toLowerCase())
+    );
+
+    if (result.length > 0) {
+      resolve(result);
+    } else {
+      reject(new Error("No book found with that ISBN."));
+    }
+  });
+}
 
 const searchBooksByISBN = async (req, res) => {
   const { ISBN } = req.query;

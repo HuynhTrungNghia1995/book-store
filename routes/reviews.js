@@ -53,7 +53,7 @@ router.post("/:bookId", (req, res) => {
     userName: user.data,
   });
   data.saveReviews(reviews);
-  return res.status(201).json({ message: "ok" });
+  return res.status(201).json({ message: "Review added successfully" });
 });
 
 /**
@@ -107,7 +107,7 @@ router.put("/:bookId", (req, res) => {
 
   data.saveReviews(reviews);
 
-  return res.status(201).json({ message: "ok" });
+  return res.status(201).json({ message: "Review updated successfully" });
 });
 
 /**
